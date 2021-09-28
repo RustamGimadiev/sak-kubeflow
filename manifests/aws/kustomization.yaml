@@ -2,39 +2,57 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kubeflow
 resources:
-  # List the Kubeflow applications that should be included
-  # TODO(https://github.com/kubeflow/manifests/issues/1073):
-  # control plane
-  - ../../../../manifests/manifests-1.2.0/admission-webhook/webhook/v3
-  - ../../../../manifests/manifests-1.2.0/common/centraldashboard/overlays/stacks
-  - ../../../../manifests/manifests-1.2.0/kubeflow-roles/base
-  - ../../../../manifests/manifests-1.2.0/stacks/aws/application/jupyter-web-app
-  - ../../../../manifests/manifests-1.2.0/jupyter/notebook-controller/base_v3
-  - ../../../../manifests/manifests-1.2.0/profiles/base_v3
-  # Training Operators
-  - ../../../../manifests/manifests-1.2.0/pytorch-job/pytorch-job-crds/overlays/application
-  - ../../../../manifests/manifests-1.2.0/pytorch-job/pytorch-operator/overlays/application
-  - ../../../../manifests/manifests-1.2.0/tf-training/tf-job-crds/overlays/application
-  - ../../../../manifests/manifests-1.2.0/tf-training/tf-job-operator/overlays/application
-  - ../../../../manifests/manifests-1.2.0/mxnet-job/mxnet-operator/overlays/application
-  - ../../../../manifests/manifests-1.2.0/mpi-job/mpi-operator/overlays/application
-  - ../../../../manifests/manifests-1.2.0/katib/installs/katib-standalone
-  # Pipeline
-  # Need to change to - ../../pipeline/installs/multi-user
-  # Meta data has been included.
-  - ../../../../manifests/manifests-1.2.0/pipeline/minio/installs/generic
-  - ../../../../manifests/manifests-1.2.0/pipeline/mysql/installs/generic
-  - ../../../../manifests/manifests-1.2.0/pipeline/installs/multi-user
-  - ../../../../manifests/manifests-1.2.0/argo/base_v3
-  # Serving components
-  - ../../../../manifests/manifests-1.2.0/seldon/seldon-core-operator/overlays/application
-  # AWS components
-  - ../../../../manifests/manifests-1.2.0/aws/aws-alb-ingress-controller/base_v3
-  - ../../../../manifests/manifests-1.2.0/aws/nvidia-device-plugin/overlays/application
-  # Kubernetes resources - anonymous user
-  - ../../../../manifests/manifests-1.2.0/default-install/base
-  # Metadata
-  - ../../../../manifests/manifests-1.2.0/metadata/v3
+# Cert-Manager
+- https://github.com/kubeflow/manifests//common/cert-manager/cert-manager/base
+- https://github.com/kubeflow/manifests//common/cert-manager/kubeflow-issuer/base
+# Istio
+- https://github.com/kubeflow/manifests//common/istio-1-9/istio-crds/base
+- https://github.com/kubeflow/manifests//common/istio-1-9/istio-namespace/base
+- https://github.com/kubeflow/manifests//common/istio-1-9/istio-install/base
+# OIDC Authservice
+- https://github.com/kubeflow/manifests//common/oidc-authservice/base
+# Dex
+- https://github.com/kubeflow/manifests//common/dex/overlays/istio
+# # KNative
+# - https://github.com/kubeflow/manifests//common/knative/knative-serving/base
+# - https://github.com/kubeflow/manifests//common/knative/knative-eventing/base
+# - https://github.com/kubeflow/manifests//common/istio-1-9/cluster-local-gateway/base
+# Kubeflow namespace
+- https://github.com/kubeflow/manifests//common/kubeflow-namespace/base
+# Kubeflow Roles
+- https://github.com/kubeflow/manifests//common/kubeflow-roles/base
+# Kubeflow Istio Resources
+- https://github.com/kubeflow/manifests//common/istio-1-9/kubeflow-istio-resources/base
+
+
+# Kubeflow Pipelines
+- https://github.com/kubeflow/manifests//apps/pipeline/upstream/env/platform-agnostic-multi-user
+# # KFServing
+# - https://github.com/kubeflow/manifests//apps/kfserving/upstream/overlays/kubeflow
+# # Katib
+# - https://github.com/kubeflow/manifests//apps/katib/upstream/installs/katib-with-kubeflow
+# Central Dashboard
+- https://github.com/kubeflow/manifests//apps/centraldashboard/upstream/overlays/istio
+# Admission Webhook
+- https://github.com/kubeflow/manifests//apps/admission-webhook/upstream/overlays/cert-manager
+# Notebook Controller
+- https://github.com/kubeflow/manifests//apps/jupyter/jupyter-web-app/upstream/overlays/istio
+# Jupyter Web App
+- https://github.com/kubeflow/manifests//apps/jupyter/notebook-controller/upstream/overlays/kubeflow
+# Profiles + KFAM
+- https://github.com/kubeflow/manifests//apps/profiles/upstream/overlays/kubeflow
+# Volumes Web App
+- https://github.com/kubeflow/manifests//apps/volumes-web-app/upstream/overlays/istio
+# # Tensorboards Controller
+# - https://github.com/kubeflow/manifests//apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
+# # Tensorboard Web App
+# - https://github.com/kubeflow/manifests//apps/tensorboard/tensorboards-web-app/upstream/overlays/istio
+# # Training Operator
+# - https://github.com/kubeflow/manifests//apps/training-operator/upstream/overlays/kubeflow
+# # MPI Operator
+# - https://github.com/kubeflow/manifests//apps/mpi-job/upstream/overlays/kubeflow
+# User namespace
+- https://github.com/kubeflow/manifests//common/user-namespace/base
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
@@ -43,12 +61,6 @@ configMapGenerator:
   behavior: replace
   files:
   - ./config/config
-- envs:
-  - ./params.env
-  name: kubeflow-config
-- name: aws-config
-  envs:
-  - ./aws.env
 - name: ml-pipeline-ui-configmap
   behavior: replace
   files:
@@ -58,43 +70,3 @@ patchesStrategicMerge:
 - config/aws-pipeline-patch.yaml
 - config/aws-metadata-patch.yaml
 - config/aws-cache-patch.yaml
-vars:
-# AWS related vars
-- name: aws-s3-bucket-name
-  objref:
-    kind: ConfigMap
-    name: aws-config
-    apiVersion: v1
-  fieldref:
-    fieldpath: data.aws-s3-bucket-name
-- name: aws-s3-endpoint
-  objref:
-    kind: ConfigMap
-    name: aws-config
-    apiVersion: v1
-  fieldref:
-    fieldpath: data.aws-s3-endpoint
-## 
-- fieldref:
-    fieldPath: data.clusterDomain
-  name: clusterDomain
-  objref:
-    apiVersion: v1
-    kind: ConfigMap
-    name: kubeflow-config
-- fieldref:
-    fieldPath: metadata.namespace
-  name: namespace
-  objref:
-    apiVersion: v1
-    kind: ConfigMap
-    name: kubeflow-config
-- fieldref:
-    fieldpath: metadata.namespace
-  name: katib-ui-namespace
-  objref:
-    kind: Service
-    name: katib-ui
-    apiVersion: v1
-configurations:
-- params.yaml

@@ -11,10 +11,10 @@ spec:
         - name: MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: aws-s3-secrets
+              name: kubeflow-aws-secrets
               key: aws-access-key-id
         - name: MINIO_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: aws-s3-secrets
+              name: kubeflow-aws-secrets
               key: aws-secret-access-key

@@ -9,8 +9,8 @@ artifactRepository:
     endpoint: s3.amazonaws.com
     insecure: true
     accessKeySecret:
-      name: mlpipeline-minio-artifact
-      key: accesskey
+      name: kubeflow-aws-secrets
+      key: aws-access-key-id
     secretKeySecret:
-      name: mlpipeline-minio-artifact
-      key: secretkey
+      name: kubeflow-aws-secrets
+      key: aws-secret-access-key

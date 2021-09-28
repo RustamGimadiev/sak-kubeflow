@@ -17,9 +17,9 @@ spec:
         - --mysql_config_password=$(aws-rds-password)
         envFrom:
         - secretRef:
-            name: aws-rds-secrets
+            name: kubeflow-aws-secrets
         - configMapRef:
-            name: aws-config
+            name: kubeflow-aws-config
         - configMapRef:
             name: metadata-db-parameters
         - configMapRef:

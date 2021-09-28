@@ -1,0 +1,16 @@
+namespace: ""
+executorImage: gcr.io/ml-pipeline/argoexec:v2.7.5-license-compliance
+containerRuntimeExecutor: docker
+artifactRepository:
+  archiveLogs: true
+  s3:
+    bucket: $(aws-s3-bucket-name)
+    keyPrefix: artifacts
+    endpoint: s3.amazonaws.com
+    insecure: true
+    accessKeySecret:
+      name: mlpipeline-minio-artifact
+      key: accesskey
+    secretKeySecret:
+      name: mlpipeline-minio-artifact
+      key: secretkey

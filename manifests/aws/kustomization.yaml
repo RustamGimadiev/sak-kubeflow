@@ -1,0 +1,100 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kubeflow
+resources:
+  # List the Kubeflow applications that should be included
+  # TODO(https://github.com/kubeflow/manifests/issues/1073):
+  # control plane
+  - ../../../../manifests/manifests-1.2.0/admission-webhook/webhook/v3
+  - ../../../../manifests/manifests-1.2.0/common/centraldashboard/overlays/stacks
+  - ../../../../manifests/manifests-1.2.0/kubeflow-roles/base
+  - ../../../../manifests/manifests-1.2.0/stacks/aws/application/jupyter-web-app
+  - ../../../../manifests/manifests-1.2.0/jupyter/notebook-controller/base_v3
+  - ../../../../manifests/manifests-1.2.0/profiles/base_v3
+  # Training Operators
+  - ../../../../manifests/manifests-1.2.0/pytorch-job/pytorch-job-crds/overlays/application
+  - ../../../../manifests/manifests-1.2.0/pytorch-job/pytorch-operator/overlays/application
+  - ../../../../manifests/manifests-1.2.0/tf-training/tf-job-crds/overlays/application
+  - ../../../../manifests/manifests-1.2.0/tf-training/tf-job-operator/overlays/application
+  - ../../../../manifests/manifests-1.2.0/mxnet-job/mxnet-operator/overlays/application
+  - ../../../../manifests/manifests-1.2.0/mpi-job/mpi-operator/overlays/application
+  - ../../../../manifests/manifests-1.2.0/katib/installs/katib-standalone
+  # Pipeline
+  # Need to change to - ../../pipeline/installs/multi-user
+  # Meta data has been included.
+  - ../../../../manifests/manifests-1.2.0/pipeline/minio/installs/generic
+  - ../../../../manifests/manifests-1.2.0/pipeline/mysql/installs/generic
+  - ../../../../manifests/manifests-1.2.0/pipeline/installs/multi-user
+  - ../../../../manifests/manifests-1.2.0/argo/base_v3
+  # Serving components
+  - ../../../../manifests/manifests-1.2.0/seldon/seldon-core-operator/overlays/application
+  # AWS components
+  - ../../../../manifests/manifests-1.2.0/aws/aws-alb-ingress-controller/base_v3
+  - ../../../../manifests/manifests-1.2.0/aws/nvidia-device-plugin/overlays/application
+  # Kubernetes resources - anonymous user
+  - ../../../../manifests/manifests-1.2.0/default-install/base
+  # Metadata
+  - ../../../../manifests/manifests-1.2.0/metadata/v3
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+- name: workflow-controller-configmap
+  namespace: kubeflow
+  behavior: replace
+  files:
+  - ./config/config
+- envs:
+  - ./params.env
+  name: kubeflow-config
+- name: aws-config
+  envs:
+  - ./aws.env
+- name: ml-pipeline-ui-configmap
+  behavior: replace
+  files:
+  - ./config/viewer-pod-template.json
+patchesStrategicMerge:
+- config/aws-profile-controller-patch.yaml
+- config/aws-pipeline-patch.yaml
+- config/aws-metadata-patch.yaml
+- config/aws-cache-patch.yaml
+vars:
+# AWS related vars
+- name: aws-s3-bucket-name
+  objref:
+    kind: ConfigMap
+    name: aws-config
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.aws-s3-bucket-name
+- name: aws-s3-endpoint
+  objref:
+    kind: ConfigMap
+    name: aws-config
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.aws-s3-endpoint
+## 
+- fieldref:
+    fieldPath: data.clusterDomain
+  name: clusterDomain
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: kubeflow-config
+- fieldref:
+    fieldPath: metadata.namespace
+  name: namespace
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: kubeflow-config
+- fieldref:
+    fieldpath: metadata.namespace
+  name: katib-ui-namespace
+  objref:
+    kind: Service
+    name: katib-ui
+    apiVersion: v1
+configurations:
+- params.yaml

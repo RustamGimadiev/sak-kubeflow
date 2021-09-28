@@ -1,0 +1,22 @@
+"apiVersion": "argoproj.io/v1alpha1"
+"kind": "Application"
+"metadata":
+  "name": "kubeflow"
+  "namespace": "argocd"
+"spec":
+  "destination":
+    "namespace": "kubeflow"
+    "server": "https://kubernetes.default.svc"
+  "project": "default"
+  "source":
+    "path": "example/apps/kubeflow"
+    "plugin":
+      "name": "decryptor"
+    "repoURL": "https://github.com/RustamGimadiev/sak-kubeflow"
+    "targetRevision": "development"
+  "syncPolicy":
+    "automated":
+      "prune": true
+      "selfHeal": true
+    "syncOptions":
+    - "CreateNamespace=true"

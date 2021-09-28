@@ -3,7 +3,6 @@ variable "cluster_name" {
   description = "A name of the AWS EKS cluster"
 }
 
-
 variable "argocd" {
   type = any
   description = "A ArgoCD module state from SAK deployment"

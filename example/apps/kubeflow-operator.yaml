@@ -1,0 +1,20 @@
+"apiVersion": "argoproj.io/v1alpha1"
+"kind": "Application"
+"metadata":
+  "name": "kubeflow-operator"
+  "namespace": "argocd"
+"spec":
+  "destination":
+    "namespace": "operators"
+    "server": "https://kubernetes.default.svc"
+  "project": "argocd"
+  "source":
+    "path": "deploy"
+    "repoURL": "https://github.com/kubeflow/kfctl"
+    "targetRevision": "v1.2.0"
+  "syncPolicy":
+    "automated":
+      "prune": true
+      "selfHeal": true
+    "syncOptions":
+    - "CreateNamespace=true"

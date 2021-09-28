@@ -24,7 +24,7 @@ resource "local_file" "kubeflow_operator" {
         "namespace" = "operators"
         "server"    = "https://kubernetes.default.svc"
       }
-      "project" = var.argocd.namespace
+      "project" = var.argocd.project
       "source" = {
         "repoURL"        = "https://github.com/kubeflow/kfctl"
         "targetRevision" = "v1.2.0"

@@ -7,7 +7,7 @@
   "destination":
     "namespace": "operators"
     "server": "https://kubernetes.default.svc"
-  "project": "argocd"
+  "project": "default"
   "source":
     "path": "deploy"
     "repoURL": "https://github.com/kubeflow/kfctl"

@@ -11,15 +11,15 @@ spec:
         - name: DBCONFIG_HOST_NAME
           valueFrom:
             configMapKeyRef:
-              key: aws-rds-address
-              name: kubeflow-aws-config
+              key: cloud-db-address
+              name: kubeflow-cloud-config
         - name: DBCONFIG_USER
           valueFrom:
             secretKeyRef:
-              key: aws-rds-username
-              name: kubeflow-aws-secrets
+              key: cloud-db-username
+              name: kubeflow-cloud-secrets
         - name: DBCONFIG_PASSWORD
           valueFrom:
             secretKeyRef:
-              key: aws-rds-password
-              name: kubeflow-aws-secrets
+              key: cloud-db-password
+              name: kubeflow-cloud-secrets

@@ -10,17 +10,15 @@ spec:
       - name: container
         args:
         - --grpc_port=$(METADATA_GRPC_SERVICE_PORT)
-        - --mysql_config_host=$(aws-rds-address)
+        - --mysql_config_host=$(cloud-db-address)
         - --mysql_config_database=$(MYSQL_DATABASE)
         - --mysql_config_port=$(MYSQL_PORT)
-        - --mysql_config_user=$(aws-rds-username)
-        - --mysql_config_password=$(aws-rds-password)
+        - --mysql_config_user=$(cloud-db-username)
+        - --mysql_config_password=$(cloud-db-password)
         envFrom:
         - secretRef:
-            name: kubeflow-aws-secrets
+            name: kubeflow-cloud-secrets
         - configMapRef:
-            name: kubeflow-aws-config
-        - configMapRef:
-            name: metadata-db-parameters
+            name: kubeflow-cloud-config
         - configMapRef:
             name: metadata-grpc-configmap

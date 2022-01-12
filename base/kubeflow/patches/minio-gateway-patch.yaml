@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: kubeflow
+spec:
+  template:
+    spec:
+      containers:
+      - name: minio
+        image: minio
+        env:
+        - name: MINIO_ACCESS_KEY
+          $patch: delete
+        - name: MINIO_SECRET_KEY
+          $patch: delete
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              key: accesskey
+              name: cloud-mlpipeline-minio-artifact
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: secretkey
+              name: cloud-mlpipeline-minio-artifact
+        args:
+        - gateway
+        - s3
+        - --console-address
+        - ":9001"

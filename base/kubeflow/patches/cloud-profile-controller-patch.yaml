@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-profile-controller
+spec:
+  template:
+    spec:
+      volumes:
+        - configMap:
+            name: cloud-kubeflow-pipelines-profile-controller-code
+          name: hooks
+      containers:
+      - name: profile-controller
+        env:
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: accesskey
+              name: cloud-mlpipeline-minio-artifact
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: secretkey
+              name: cloud-mlpipeline-minio-artifact
+        - name: BUCKET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: kubeflow-cloud-config
+              key: cloud-storage-bucket-name

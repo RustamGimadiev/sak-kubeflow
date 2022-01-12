@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-server
+spec:
+  template:
+    spec:
+      containers:
+      - name: server
+        env:
+        - name: DBCONFIG_HOST_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: cloud-db-address
+              name: kubeflow-cloud-config
+        - name: DBCONFIG_USER
+          valueFrom:
+            secretKeyRef:
+              key: cloud-db-username
+              name: kubeflow-cloud-secrets
+        - name: DBCONFIG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: cloud-db-password
+              name: kubeflow-cloud-secrets

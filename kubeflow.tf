@@ -41,8 +41,8 @@ resource "local_file" "kubeflow_root_application" {
         syncPolicy = {
           syncOptions = ["CreateNamespace=true"]
           automated = {
-            prune    = "true"
-            selfHeal = "true"
+            prune    = true
+            selfHeal = true
           }
         }
       }
@@ -94,8 +94,8 @@ resource "local_file" "kubeflow_argo_application" {
         syncPolicy = {
           syncOptions = ["CreateNamespace=true"]
           automated = {
-            prune    = "true"
-            selfHeal = "true"
+            prune    = true
+            selfHeal = true
           }
         }
       }
@@ -148,8 +148,8 @@ resource "local_file" "istio_application" {
         syncPolicy = {
           syncOptions = ["CreateNamespace=true"]
           automated = {
-            prune    = "true"
-            selfHeal = "true"
+            prune    = true
+            selfHeal = true
           }
         }
       }

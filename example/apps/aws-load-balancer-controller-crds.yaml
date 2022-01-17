@@ -1,0 +1,16 @@
+"apiVersion": "argoproj.io/v1alpha1"
+"kind": "Application"
+"metadata":
+  "labels":
+    "scope": "system"
+  "name": "aws-load-balancer-controller-crds"
+  "namespace": "argo-cd"
+"spec":
+  "destination":
+    "namespace": "kube-system"
+    "server": "https://kubernetes.default.svc"
+  "project": "system"
+  "source":
+    "path": "stable/aws-load-balancer-controller/crds/"
+    "repoURL": "https://github.com/aws/eks-charts"
+    "targetRevision": "v0.0.63"

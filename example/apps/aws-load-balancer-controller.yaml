@@ -1,0 +1,28 @@
+"apiVersion": "argoproj.io/v1alpha1"
+"kind": "Application"
+"metadata":
+  "name": "aws-load-balancer-controller"
+  "namespace": "argocd"
+"spec":
+  "destination":
+    "namespace": "kube-system"
+    "server": "https://kubernetes.default.svc"
+  "project": "default"
+  "source":
+    "chart": "aws-load-balancer-controller"
+    "helm":
+      "parameters":
+      - "name": "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+        "value": "arn:aws:iam::060183668755:role/kubeflow_aws-load-balancer-controller"
+      "values": |
+        "clusterName": "kubeflow"
+        "region": "eu-north-1"
+        "vpcId": "vpc-0f7ded475fc6d8ac6"
+    "repoURL": "https://aws.github.io/eks-charts"
+    "targetRevision": "1.2.7"
+  "syncPolicy":
+    "automated":
+      "prune": true
+      "selfHeal": true
+    "syncOptions":
+    - "CreateNamespace=true"

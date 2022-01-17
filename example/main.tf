@@ -31,10 +31,9 @@ module "argocd" {
 }
 
 module "external_secrets" {
-  source           = "github.com/provectus/sak-external-secrets"
-  argocd           = module.argocd.state
-  cluster_oidc_url = module.kubernetes.cluster_oidc_url
-  cluster_name     = module.kubernetes.cluster_name
+  source       = "github.com/provectus/sak-external-secrets?ref=ench-use-template-for-module"
+  argocd       = module.argocd.state
+  cluster_name = module.kubernetes.cluster_name
 }
 
 module "external_dns" {

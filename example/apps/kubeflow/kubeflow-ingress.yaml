@@ -1,0 +1,34 @@
+# -----------------------------
+#
+# This file is generated during Terraform apply.
+# Please refer to module sak-kubeflow:
+#   https://github.com/RustamGimadiev/sak-kubeflow
+# to make changes to this file.
+#
+# -----------------------------
+"apiVersion": "networking.k8s.io/v1"
+"kind": "Ingress"
+"metadata":
+  "annotations":
+    "alb.ingress.kubernetes.io/certificate-arn": "arn:aws:acm:eu-north-1:060183668755:certificate/86e84f04-fe34-4916-8403-46c8c3699fa0"
+    "alb.ingress.kubernetes.io/group.name": "kubeflow"
+    "alb.ingress.kubernetes.io/scheme": "internet-facing"
+    "alb.ingress.kubernetes.io/ssl-redirect": "443"
+    "alb.ingress.kubernetes.io/target-type": "ip"
+    "kubernetes.io/ingress.class": "alb"
+  "labels":
+    "name": "kubeflow"
+  "name": "kubeflow"
+  "namespace": "istio-system"
+"spec":
+  "rules":
+  - "host": "kubeflow.swiss-army-grusakov.sak-grusakov.edu.provectus.io"
+    "http":
+      "paths":
+      - "backend":
+          "service":
+            "name": "istio-ingressgateway"
+            "port":
+              "number": 80
+        "path": "/"
+        "pathType": "Prefix"

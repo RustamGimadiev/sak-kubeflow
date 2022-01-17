@@ -9,17 +9,27 @@
 "apiVersion": "argoproj.io/v1alpha1"
 "kind": "Application"
 "metadata":
-  "name": "kubeflow-resources"
-  "namespace": "argocd"
+  "name": "istio"
+  "namespace": "argo-cd"
 "spec":
   "destination":
-    "namespace": "kubeflow"
+    "namespace": "istio-system"
     "server": "https://kubernetes.default.svc"
+  "ignoreDifferences":
+  - "group": "admissionregistration.k8s.io"
+    "jsonPointers":
+    - "/webhooks/0/clientConfig/caBundle"
+    "kind": "MutatingWebhookConfiguration"
+  - "group": "admissionregistration.k8s.io"
+    "jsonPointers":
+    - "/webhooks/0/clientConfig/caBundle"
+    - "/webhooks/0/failurePolicy"
+    "kind": "ValidatingWebhookConfiguration"
   "project": "default"
   "source":
-    "directory":
-      "recurse": true
-    "path": "example/apps/kubeflow"
+    "kustomize":
+      "version": "v3.2.0"
+    "path": "base/istio"
     "repoURL": "https://github.com/RustamGimadiev/sak-kubeflow"
     "targetRevision": "development"
   "syncPolicy":

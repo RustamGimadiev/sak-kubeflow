@@ -7,7 +7,7 @@ locals {
     "#",
     "# This file is generated during Terraform apply.",
     "# Please refer to module sak-kubeflow:",
-    "#   ${var.argocd.state.repository}",
+    "#   ${var.argocd.repository}",
     "# to make changes to this file.",
     "#",
     "# -----------------------------"
@@ -22,21 +22,21 @@ resource "local_file" "kubeflow_root_application" {
       kind       = "Application"
       metadata = {
         name      = "kubeflow-resources"
-        namespace = var.argocd.state.namespace
+        namespace = var.argocd.namespace
       }
       spec = {
         destination = {
           namespace = "kubeflow"
           server    = "https://kubernetes.default.svc"
         }
-        project = var.argocd.state.project
+        project = var.argocd.project
         source = {
           directory = {
             recurse = true
           }
-          path           = "${var.argocd.state.full_path}/kubeflow"
-          repoURL        = var.argocd.state.repository
-          targetRevision = var.argocd.state.branch
+          path           = "${var.argocd.full_path}/kubeflow"
+          repoURL        = var.argocd.repository
+          targetRevision = var.argocd.branch
         }
         syncPolicy = {
           syncOptions = ["CreateNamespace=true"]
@@ -85,8 +85,8 @@ resource "local_file" "kubeflow_argo_application" {
         project = "default"
         source = {
           path           = "base/kubeflow"
-          repoURL        = var.argocd.state.repository
-          targetRevision = var.argocd.state.branch
+          repoURL        = var.argocd.repository
+          targetRevision = var.argocd.branch
           kustomize = {
             version = "v3.2.0"
           }
@@ -103,74 +103,6 @@ resource "local_file" "kubeflow_argo_application" {
     )
   ])) # close the join( concat( [ ] ) ) wrapper
 }
-
-# resource "local_file" "auth_resources_argo_application" {
-#   filename = "${path.root}/${var.argocd.path}/kubeflow/auth_resources.yaml"
-#   content = join("\n", concat(local.kf_comment_block, [yamlencode(
-#     {
-#       apiVersion = "argoproj.io/v1alpha1"
-#       kind       = "Application"
-#       metadata = {
-#         name      = "auth-resources"
-#         namespace = var.argocd.state.namespace
-#       }
-#       spec = {
-#         destination = {
-#           namespace = "auth"
-#           server    = "https://kubernetes.default.svc"
-#         }
-#         project = "default"
-#         source = {
-#           path           = "${var.argocd.state.full_path}/kubeflow/auth"
-#           repoURL        = var.argocd.state.repository
-#           targetRevision = var.argocd.state.branch
-#         }
-#         syncPolicy = {
-#           syncOptions = ["CreateNamespace=true"]
-#           automated = {
-#             prune    = "true"
-#             selfHeal = "true"
-#           }
-#         }
-#       }
-#     }
-#     )
-#   ])) # close the join( concat( [ ] ) ) wrapper
-# }
-
-# resource "local_file" "istio_resources_argo_application" {
-#   filename = "${path.root}/${var.argocd.path}/kubeflow/istio_resources.yaml"
-#   content = join("\n", concat(local.kf_comment_block, [yamlencode(
-#     {
-#       apiVersion = "argoproj.io/v1alpha1"
-#       kind       = "Application"
-#       metadata = {
-#         name      = "istio-resources"
-#         namespace = var.argocd.state.namespace
-#       }
-#       spec = {
-#         destination = {
-#           namespace = "istio-system"
-#           server    = "https://kubernetes.default.svc"
-#         }
-#         project = "default"
-#         source = {
-#           path           = "${var.argocd.state.full_path}/kubeflow/istio"
-#           repoURL        = var.argocd.state.repository
-#           targetRevision = var.argocd.state.branch
-#         }
-#         syncPolicy = {
-#           syncOptions = ["CreateNamespace=true"]
-#           automated = {
-#             prune    = "true"
-#             selfHeal = "true"
-#           }
-#         }
-#       }
-#     }
-#     )
-#   ])) # close the join( concat( [ ] ) ) wrapper
-# }
 
 resource "local_file" "istio_application" {
   filename = "${path.root}/${var.argocd.path}/kubeflow/istio.yaml"
@@ -207,8 +139,8 @@ resource "local_file" "istio_application" {
         project = "default"
         source = {
           path           = "base/istio"
-          repoURL        = var.argocd.state.repository
-          targetRevision = var.argocd.state.branch
+          repoURL        = var.argocd.repository
+          targetRevision = var.argocd.branch
           kustomize = {
             version = "v3.2.0"
           }
@@ -616,12 +548,4 @@ resource "local_file" "kubeflow_profile" {
   file_permission      = "0644"
   directory_permission = "0755"
   filename             = "${path.root}/${var.argocd.path}/kubeflow/profiles/${lower(replace(each.value.name, " ", "-"))}.yaml"
-}
-resource "aws_iam_user" "this" {
-  name = var.app
-  tags = var.tags
-}
-
-resource "aws_iam_access_key" "this" {
-  user = aws_iam_user.this.name
 }

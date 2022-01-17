@@ -15,6 +15,8 @@
       - "name": "server.rbacConfig.policy\\.csv"
         "value": |
           g, administrators, role:admin
+      - "name": "configs.knownHosts.data.ssh_known_hosts"
+        "value": ""
       - "name": "configs.secret.bitbucketServerSecret"
         "value": ""
       - "name": "configs.secret.bitbucketUUID"
@@ -39,8 +41,23 @@
         "value": "AWS_DEFAULT_REGION"
       - "name": "repoServer.env[0].value"
         "value": "eu-north-1"
+      - "name": "repoServer.initContainers[0].args[0]"
+        "value": "wget -O kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.2.0/kustomize_3.2.0_linux_amd64
+          && chmod +x kustomize && mv kustomize /kustomize-3-2-0/"
+      - "name": "repoServer.initContainers[0].command[0]"
+        "value": "sh"
+      - "name": "repoServer.initContainers[0].command[1]"
+        "value": "-c"
+      - "name": "repoServer.initContainers[0].image"
+        "value": "alpine:3.15"
+      - "name": "repoServer.initContainers[0].name"
+        "value": "download-kustomize"
+      - "name": "repoServer.initContainers[0].volumeMounts[0].mountPath"
+        "value": "/kustomize-3-2-0"
+      - "name": "repoServer.initContainers[0].volumeMounts[0].name"
+        "value": "kustomize-3-2-0"
       - "name": "repoServer.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-        "value": "arn:aws:iam::245582572290:role/kubeflow_argocd"
+        "value": "arn:aws:iam::060183668755:role/kubeflow_argocd"
       - "name": "repoServer.serviceAccount.create"
         "value": "true"
       - "name": "repoServer.serviceAccount.name"
@@ -49,6 +66,12 @@
         "value": "/opt/decryptor/bin"
       - "name": "repoServer.volumeMounts[0].name"
         "value": "decryptor"
+      - "name": "repoServer.volumeMounts[1].mountPath"
+        "value": "/usr/local/bin/kustomize"
+      - "name": "repoServer.volumeMounts[1].name"
+        "value": "kustomize-3-2-0"
+      - "name": "repoServer.volumeMounts[1].subPath"
+        "value": "kustomize"
       - "name": "repoServer.volumes[0].configMap.items[0].key"
         "value": "decryptor"
       - "name": "repoServer.volumes[0].configMap.items[0].path"
@@ -57,6 +80,8 @@
         "value": "argocd-decryptor"
       - "name": "repoServer.volumes[0].name"
         "value": "decryptor"
+      - "name": "repoServer.volumes[1].name"
+        "value": "kustomize-3-2-0"
       - "name": "server.config.configManagementPlugins"
         "value": |
           - "generate":
@@ -92,7 +117,7 @@
       "values": |
         "configs":
           "secret":
-            "argocdServerAdminPassword": "$2a$10$ZB5eOBRiEyOOUlg6ov8AdeLZPbDKjeCpuCfGz9T3qEI6WrAq8dY5S"
+            "argocdServerAdminPassword": "$2a$10$EH688IBt9cvzsvPVs6PS8OTDHN27ToB.nkN34oDemdcm/KJd5hDuW"
     "repoURL": "https://argoproj.github.io/argo-helm"
     "targetRevision": "3.21.1"
   "syncPolicy":

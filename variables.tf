@@ -84,3 +84,8 @@ variable "tags" {
   description = "A mapping of tags to assign to the resource"
   default     = {}
 }
+
+variable "github_teams_with_access_to_kubeflow" {
+  type    = list(string)
+  default = []
+}

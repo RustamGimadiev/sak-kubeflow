@@ -1,0 +1,22 @@
+# -----------------------------
+#
+# This file is generated during Terraform apply.
+# Please refer to module sak-kubeflow:
+#   https://github.com/RustamGimadiev/sak-kubeflow
+# to make changes to this file.
+#
+# -----------------------------
+"apiVersion": "kubernetes-client.io/v1"
+"kind": "ExternalSecret"
+"metadata":
+  "name": "cloud-mlpipeline-minio-artifact"
+  "namespace": "kubeflow"
+"spec":
+  "backendType": "secretsManager"
+  "data":
+  - "key": "/eks/kubeflow/development-kubeflow"
+    "name": "accesskey"
+    "property": "cloud-access-key-id"
+  - "key": "/eks/kubeflow/development-kubeflow"
+    "name": "secretkey"
+    "property": "cloud-secret-access-key"

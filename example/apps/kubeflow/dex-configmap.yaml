@@ -1,0 +1,50 @@
+# -----------------------------
+#
+# This file is generated during Terraform apply.
+# Please refer to module sak-kubeflow:
+#   https://github.com/RustamGimadiev/sak-kubeflow
+# to make changes to this file.
+#
+# -----------------------------
+"apiVersion": "v1"
+"data":
+  "config.yaml": |
+    "connectors":
+    - "config":
+        "clientID": "${DEX_GITHUB_CLIENT_ID}"
+        "clientSecret": "${DEX_GITHUB_CLIENT_SECRET}"
+        "orgs":
+        - "name": "pepsico-ecommerce"
+          "teams": []
+        "redirectURI": "https://kubeflow.swiss-army-grusakov.sak-grusakov.edu.provectus.io/dex/callback"
+      "id": "github"
+      "name": "GitHub"
+      "type": "github"
+    "enablePasswordDB": true
+    "issuer": "https://kubeflow.swiss-army-grusakov.sak-grusakov.edu.provectus.io/dex"
+    "logger":
+      "format": "text"
+      "level": "debug"
+    "oauth2":
+      "skipApprovalScreen": true
+    "staticClients":
+    - "idEnv": "OIDC_CLIENT_ID"
+      "name": "Dex Login Application"
+      "redirectURIs":
+      - "/login/oidc"
+      "secretEnv": "OIDC_CLIENT_SECRET"
+    "staticPasswords":
+    - "email": "user@example.com"
+      "hashFromEnv": "DEX_STATIC_USER_PASSWORD"
+      "userID": "15841185641784"
+      "username": "user"
+    "storage":
+      "config":
+        "inCluster": true
+      "type": "kubernetes"
+    "web":
+      "http": "0.0.0.0:5556"
+"kind": "ConfigMap"
+"metadata":
+  "name": "dex-config"
+  "namespace": "auth"

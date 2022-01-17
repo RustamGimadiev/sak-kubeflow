@@ -1,0 +1,18 @@
+# -----------------------------
+#
+# This file is generated during Terraform apply.
+# Please refer to module sak-kubeflow:
+#   https://github.com/RustamGimadiev/sak-kubeflow
+# to make changes to this file.
+#
+# -----------------------------
+"apiVersion": "v1"
+"data":
+  "cloud-db-address": "terraform-20220113120341653600000006.cbkww6a3wyt1.eu-north-1.rds.amazonaws.com:3306"
+  "cloud-region": "eu-north-1"
+  "cloud-storage-bucket-name": "kubeflow-kubeflow"
+  "cloud-storage-endpoint": "storage.eu-north-1.amazonaws.com"
+"kind": "ConfigMap"
+"metadata":
+  "name": "kubeflow-cloud-config"
+  "namespace": "kubeflow"

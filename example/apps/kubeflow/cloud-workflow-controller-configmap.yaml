@@ -1,0 +1,30 @@
+# -----------------------------
+#
+# This file is generated during Terraform apply.
+# Please refer to module sak-kubeflow:
+#   https://github.com/RustamGimadiev/sak-kubeflow
+# to make changes to this file.
+#
+# -----------------------------
+"apiVersion": "v1"
+"data":
+  "artifactRepository": |
+    "archiveLogs": true
+    "s3":
+      "accessKeySecret":
+        "key": "accesskey"
+        "name": "cloud-mlpipeline-minio-artifact"
+      "bucket": "kubeflow-kubeflow"
+      "endpoint": "minio-service.kubeflow:9000"
+      "insecure": true
+      "keyPrefix": "artifacts"
+      "secretKeySecret":
+        "key": "secretkey"
+        "name": "cloud-mlpipeline-minio-artifact"
+  "containerRuntimeExecutor": "docker"
+  "executorImage": "gcr.io/ml-pipeline/argoexec:v3.1.6-patch-license-compliance"
+  "namespace": ""
+"kind": "ConfigMap"
+"metadata":
+  "name": "cloud-workflow-controller-configmap"
+  "namespace": "kubeflow"

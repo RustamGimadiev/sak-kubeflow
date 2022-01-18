@@ -97,7 +97,7 @@
               - "/usr/bin/pip3"
             "name": "decryptor"
       - "name": "server.config.kustomize\\.path\\.v3\\.2\\.0"
-        "value": "/usr/local/bin/kustomize_3.2.0"
+        "value": "/usr/local/bin/kustomize_3.2.0/kustomize"
       - "name": "server.config.repositories"
         "value": |+
           - url: https://github.com/RustamGimadiev/sak-kubeflow

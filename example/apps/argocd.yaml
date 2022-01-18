@@ -67,7 +67,7 @@
       - "name": "repoServer.volumeMounts[0].name"
         "value": "decryptor"
       - "name": "repoServer.volumeMounts[1].mountPath"
-        "value": "/usr/local/bin/kustomize"
+        "value": "/usr/local/bin/kustomize_3.2.0"
       - "name": "repoServer.volumeMounts[1].name"
         "value": "kustomize-3-2-0"
       - "name": "repoServer.volumeMounts[1].subPath"
@@ -96,6 +96,8 @@
               "command":
               - "/usr/bin/pip3"
             "name": "decryptor"
+      - "name": "server.config.kustomize\\.path\\.v3\\.2\\.0"
+        "value": "/usr/local/bin/kustomize_3.2.0"
       - "name": "server.config.repositories"
         "value": |+
           - url: https://github.com/RustamGimadiev/sak-kubeflow

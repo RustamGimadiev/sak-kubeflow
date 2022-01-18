@@ -59,7 +59,7 @@ resource "local_file" "kubeflow_argo_application" {
       kind       = "Application"
       metadata = {
         name      = "kubeflow"
-        namespace = "argo-cd"
+        namespace = "argocd"
       }
       spec = {
         ignoreDifferences = [
@@ -112,7 +112,7 @@ resource "local_file" "istio_application" {
       kind       = "Application"
       metadata = {
         name      = "istio"
-        namespace = "argo-cd"
+        namespace = "argocd"
       }
       spec = {
         ignoreDifferences = [

@@ -10,7 +10,7 @@
 "kind": "Application"
 "metadata":
   "name": "istio"
-  "namespace": "argo-cd"
+  "namespace": "argocd"
 "spec":
   "destination":
     "namespace": "istio-system"

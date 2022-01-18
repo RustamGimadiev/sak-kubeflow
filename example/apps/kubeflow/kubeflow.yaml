@@ -10,7 +10,7 @@
 "kind": "Application"
 "metadata":
   "name": "kubeflow"
-  "namespace": "argo-cd"
+  "namespace": "argocd"
 "spec":
   "destination":
     "namespace": "kubeflow"

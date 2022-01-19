@@ -275,7 +275,7 @@ resource "local_file" "alb_ingress_controller_crds" {
     kind       = "Application"
     metadata = {
       name      = "aws-load-balancer-controller-crds"
-      namespace = "argo-cd"
+      namespace = "argocd"
       labels = {
         scope = "system"
       }

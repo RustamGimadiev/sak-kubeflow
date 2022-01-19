@@ -235,12 +235,14 @@ resource "aws_secretsmanager_secret" "kubeflow" {
 resource "aws_secretsmanager_secret_version" "kubeflow" {
   secret_id = aws_secretsmanager_secret.kubeflow.id
   secret_string = jsonencode({
+    clien-id                = "" # TODO add SSO creds
+    client-secret           = "" # TODO add SSO creds
     cloud-db-username       = var.kf_db_master_username
     cloud-db-password       = var.kf_db_master_password
     cloud-access-key-id     = var.kf_user_credentials_id
     cloud-secret-access-key = var.kf_user_credentials_secret
     static-user-password    = var.default_user_password
-    oidc_provider           = "https://kubeflow.${var.external_dns_domain}/dex"
+    oidc-provider           = "https://kubeflow.${var.external_dns_domain}/dex"
   })
 }
 
@@ -290,7 +292,7 @@ resource "local_file" "istio_secrets" {
           {
             key      = aws_secretsmanager_secret.kubeflow.name
             name     = "OIDC_PROVIDER"
-            property = "oidc_provider"
+            property = "oidc-provider"
           }
         ]
       }
@@ -313,14 +315,14 @@ resource "local_file" "sso_secrets" {
         backendType = "secretsManager"
         data = [
           {
-            key      = "/eks/${var.cluster_name}/kubeflow-github-sso-secret"
+            key      = aws_secretsmanager_secret.kubeflow.name
             name     = "DEX_GITHUB_CLIENT_ID"
-            property = "CLIENT_ID"
+            property = "client-id"
           },
           {
-            key      = "/eks/${var.cluster_name}/kubeflow-github-sso-secret"
+            key      = aws_secretsmanager_secret.kubeflow.name
             name     = "DEX_GITHUB_CLIENT_SECRET"
-            property = "CLIENT_SECRET"
+            property = "client-secret"
           },
           {
             key      = aws_secretsmanager_secret.kubeflow.name

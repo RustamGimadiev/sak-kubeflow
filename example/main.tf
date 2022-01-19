@@ -275,17 +275,13 @@ resource "local_file" "alb_ingress_controller_crds" {
     kind       = "Application"
     metadata = {
       name      = "aws-load-balancer-controller-crds"
-      namespace = "argocd"
-      labels = {
-        scope = "system"
-      }
+      namespace = module.argocd.state.namespace
     }
     spec = {
       destination = {
         namespace = "kube-system"
         server    = "https://kubernetes.default.svc"
       }
-      project = "system"
       source = {
         path           = "stable/aws-load-balancer-controller/crds/"
         repoURL        = "https://github.com/aws/eks-charts"

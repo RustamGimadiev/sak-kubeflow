@@ -282,6 +282,7 @@ resource "local_file" "alb_ingress_controller_crds" {
         namespace = "kube-system"
         server    = "https://kubernetes.default.svc"
       }
+      project = "default"
       source = {
         path           = "stable/aws-load-balancer-controller/crds/"
         repoURL        = "https://github.com/aws/eks-charts"

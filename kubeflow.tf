@@ -235,7 +235,7 @@ resource "aws_secretsmanager_secret" "kubeflow" {
 resource "aws_secretsmanager_secret_version" "kubeflow" {
   secret_id = aws_secretsmanager_secret.kubeflow.id
   secret_string = jsonencode({
-    clien-id                = "" # TODO add SSO creds
+    client-id               = "" # TODO add SSO creds
     client-secret           = "" # TODO add SSO creds
     cloud-db-username       = var.kf_db_master_username
     cloud-db-password       = var.kf_db_master_password

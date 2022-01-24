@@ -43,7 +43,7 @@
         "value": "eu-north-1"
       - "name": "repoServer.initContainers[0].args[0]"
         "value": "wget -O kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.2.0/kustomize_3.2.0_linux_amd64
-          && chmod +x kustomize && mv kustomize /custom_binaries"
+          && chmod +x kustomize && mv kustomize /custom-binaries"
       - "name": "repoServer.initContainers[0].command[0]"
         "value": "sh"
       - "name": "repoServer.initContainers[0].command[1]"
@@ -53,9 +53,9 @@
       - "name": "repoServer.initContainers[0].name"
         "value": "download-kustomize"
       - "name": "repoServer.initContainers[0].volumeMounts[0].mountPath"
-        "value": "/custom_binaries"
+        "value": "/custom-binaries"
       - "name": "repoServer.initContainers[0].volumeMounts[0].name"
-        "value": "custom_binaries"
+        "value": "custom-binaries"
       - "name": "repoServer.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
         "value": "arn:aws:iam::060183668755:role/kubeflow_argocd"
       - "name": "repoServer.serviceAccount.create"
@@ -67,9 +67,9 @@
       - "name": "repoServer.volumeMounts[0].name"
         "value": "decryptor"
       - "name": "repoServer.volumeMounts[1].mountPath"
-        "value": "/custom_binaries"
+        "value": "/custom-binaries"
       - "name": "repoServer.volumeMounts[1].name"
-        "value": "custom_binaries"
+        "value": "custom-binaries"
       - "name": "repoServer.volumeMounts[1].subPath"
         "value": "kustomize"
       - "name": "repoServer.volumes[0].configMap.items[0].key"
@@ -81,7 +81,7 @@
       - "name": "repoServer.volumes[0].name"
         "value": "decryptor"
       - "name": "repoServer.volumes[1].name"
-        "value": "custom_binaries"
+        "value": "custom-binaries"
       - "name": "server.config.configManagementPlugins"
         "value": |
           - "generate":
@@ -97,7 +97,7 @@
               - "/usr/bin/pip3"
             "name": "decryptor"
       - "name": "server.config.kustomize\\.path\\.v3\\.2\\.0"
-        "value": "/custom_binaries"
+        "value": "/custom-binaries"
       - "name": "server.config.repositories"
         "value": |+
           - url: https://github.com/RustamGimadiev/sak-kubeflow

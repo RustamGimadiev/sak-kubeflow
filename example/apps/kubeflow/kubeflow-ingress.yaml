@@ -10,7 +10,7 @@
 "kind": "Ingress"
 "metadata":
   "annotations":
-    "alb.ingress.kubernetes.io/certificate-arn": "arn:aws:acm:eu-north-1:060183668755:certificate/4d542a71-3881-4c27-9e7b-2219de07f296"
+    "alb.ingress.kubernetes.io/certificate-arn": "arn:aws:acm:eu-north-1:060183668755:certificate/0b0945e2-4687-49c0-8326-f7faf3173e43"
     "alb.ingress.kubernetes.io/group.name": "kubeflow"
     "alb.ingress.kubernetes.io/scheme": "internet-facing"
     "alb.ingress.kubernetes.io/ssl-redirect": "443"

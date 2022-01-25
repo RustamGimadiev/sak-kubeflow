@@ -43,6 +43,21 @@ module "external_dns" {
   hostedzones  = ["swiss-army-grusakov.sak-grusakov.edu.provectus.io"]
 }
 
+data "aws_route53_zone" "zone" {
+  name         = "swiss-army-grusakov.sak-grusakov.edu.provectus.io."
+  private_zone = false
+}
+
+module "cert-manager" {
+  source = "github.com/provectus/sak-cert-manager"
+
+  cluster_name = module.kubernetes.cluster_name
+  argocd       = module.argocd.state
+  zone_id      = data.aws_route53_zone.zone.zone_id
+  vpc_id       = module.network.vpc_id
+  domains      = ["swiss-army-grusakov.sak-grusakov.edu.provectus.io"]
+}
+
 ### Hard way to install ALB ingress controller
 module "application" {
   source = "git::https://github.com/provectus/sak-incubator//meta-aws-application?ref=49e8ec3def5585cb8decb5f4e6583669efb52bc0"

@@ -51,37 +51,37 @@ resource "local_file" "kubeflow_root_application" {
   ])) # close the join( concat( [ ] ) ) wrapper
 }
 
-resource "local_file" "kubeflow_istio" {
-  filename = "${path.root}/${var.argocd.path}/kubeflow/istio_ns.yaml"
-  content = join("\n", concat(local.kf_comment_block, [yamlencode(
-    {
-      apiVersion = "v1"
-      kind       = "Namespace"
-      metadata = {
-        name = "istio-system"
-        annotations = {
-          "argocd.argoproj.io/sync-wave" = "-1"
-        }
-      }
-    }
-  )]))
-}
+# resource "local_file" "kubeflow_istio" {
+#   filename = "${path.root}/${var.argocd.path}/kubeflow/istio_ns.yaml"
+#   content = join("\n", concat(local.kf_comment_block, [yamlencode(
+#     {
+#       apiVersion = "v1"
+#       kind       = "Namespace"
+#       metadata = {
+#         name = "istio-system"
+#         annotations = {
+#           "argocd.argoproj.io/sync-wave" = "-1"
+#         }
+#       }
+#     }
+#   )]))
+# }
 
-resource "local_file" "kubeflow_auth" {
-  filename = "${path.root}/${var.argocd.path}/kubeflow/auth_ns.yaml"
-  content = join("\n", concat(local.kf_comment_block, [yamlencode(
-    {
-      apiVersion = "v1"
-      kind       = "Namespace"
-      metadata = {
-        name = "auth"
-        annotations = {
-          "argocd.argoproj.io/sync-wave" = "-1"
-        }
-      }
-    }
-  )]))
-}
+# resource "local_file" "kubeflow_auth" {
+#   filename = "${path.root}/${var.argocd.path}/kubeflow/auth_ns.yaml"
+#   content = join("\n", concat(local.kf_comment_block, [yamlencode(
+#     {
+#       apiVersion = "v1"
+#       kind       = "Namespace"
+#       metadata = {
+#         name = "auth"
+#         annotations = {
+#           "argocd.argoproj.io/sync-wave" = "-1"
+#         }
+#       }
+#     }
+#   )]))
+# }
 
 resource "local_file" "kubeflow_argo_application" {
   filename = "${path.root}/${var.argocd.path}/kubeflow/kubeflow.yaml"
